@@ -1,0 +1,11 @@
+1
+00:01:30,000 --> 00:01:36,000
+Dün akşam eve geldiğimde herkes çoktan gitmişti.
+
+2
+00:01:51,000 --> 00:01:57,000
+Seni aradım ama telefonun kapalıydı.
+
+3
+00:02:12,000 --> 00:02:18,000
+Bir daha böyle geç kalmamaya çalışacağım.

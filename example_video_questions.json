@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "title": "Turkish listening practice — example",
+  "language": "tr",
+  "level": "B1",
+  "segments": [
+    {
+      "id": "segment-001",
+      "start": 90,
+      "end": 111,
+      "transcript": "Dün akşam eve geldiğimde herkes çoktan gitmişti.",
+      "question": "What does “çoktan gitmişti” tell you about when everyone left?",
+      "choices": [
+        "They were about to leave.",
+        "They had already left.",
+        "They were leaving at that moment.",
+        "They decided not to leave."
+      ],
+      "correctIndex": 1,
+      "feedback": "“Çoktan” means “already.” “Gitmişti” is the past perfect-like form (-mişti), describing an event that had happened before the speaker arrived. Together, the phrase means that everyone had already left.",
+      "languageFocus": "grammar and comprehension"
+    },
+    {
+      "id": "segment-002",
+      "start": 111,
+      "end": 132,
+      "transcript": "Seni aradım ama telefonun kapalıydı.",
+      "question": "In this context, what does “telefonun kapalıydı” mean?",
+      "choices": [
+        "Your phone was switched off.",
+        "Your phone was brand new.",
+        "Your phone was charging.",
+        "Your phone was on the table."
+      ],
+      "correctIndex": 0,
+      "feedback": "“Telefonun” means “your phone.” “Kapalıydı” is the past form of “kapalı” (closed/off). For a phone, it normally means the phone was switched off or unavailable, not physically closed.",
+      "languageFocus": "vocabulary and idiom"
+    },
+    {
+      "id": "segment-003",
+      "start": 132,
+      "end": 153,
+      "transcript": "Bir daha böyle geç kalmamaya çalışacağım.",
+      "question": "What is the speaker saying they will try to do?",
+      "choices": [
+        "Arrive late again on purpose.",
+        "Make someone else wait.",
+        "Avoid being this late again.",
+        "Leave before everyone else."
+      ],
+      "correctIndex": 2,
+      "feedback": "“Bir daha” means “again / another time,” and “geç kalmak” means “to be late.” “Geç kalmamaya çalışacağım” means “I will try not to be late.” The negative form -mamaya expresses trying to avoid an action.",
+      "languageFocus": "comprehension and verb forms"
+    }
+  ]
+}
