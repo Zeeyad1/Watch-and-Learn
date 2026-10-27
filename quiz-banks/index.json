@@ -1,6 +1,22 @@
 [
   {
+    "file": "turkish_a1_easy_quiz_bank_50.csv",
+    "name": "Easy A1"
+  },
+  {
     "file": "turkish_a2_b1_quiz_bank_140.csv",
-    "name": "Turkish A2 + B1 \u00b7 140 Questions"
+    "name": "A2–B1 Core"
+  },
+  {
+    "file": "turkish_hard_a2_easy_b1_teaching_bank_72.csv",
+    "name": "A2–B1 Challenge"
+  },
+  {
+    "file": "turkish_advanced_common_nouns_300.csv",
+    "name": "Advanced Common Nouns"
+  },
+  {
+    "file": "turkish_b1_everyday_life_comprehension_200.csv",
+    "name": "B1 Everyday Life"
   }
 ]
