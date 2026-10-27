@@ -1,0 +1,1 @@
+Add any schema-compatible CSV to quiz-banks/. The included GitHub Action automatically rebuilds index.json after a CSV is pushed. The app then lists it under Quiz topic. No HTML edit is needed.
