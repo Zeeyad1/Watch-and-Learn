@@ -1,8 +1,8 @@
-/* Turkish Practice service worker — v51
+/* Turkish Practice service worker — v52
  * Static app shell and bundled quiz banks are cached for offline use.
  * Navigation is network-first; bundled assets are cache-first with network fallback.
  */
-const CACHE_PREFIX = 'turkish-practice-v51';
+const CACHE_PREFIX = 'turkish-practice-v52';
 const SHELL_CACHE = `${CACHE_PREFIX}-shell`;
 const DATA_CACHE = `${CACHE_PREFIX}-data`;
 const SHELL_FILES = [
