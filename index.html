@@ -1,36 +1,42 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#263f5d"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><title>Language Training</title>
 <script>
 /* v42 one-time fresh load per browser session; preserves localStorage/question deck */
-(()=> {
-  const SESSION_KEY="turkishFreshSessionV1";
-  const CACHE_PARAM="_fresh";
-  let url=new URL(location.href);
+(()=>{
+  try{
+    const SESSION_KEY="turkishFreshSessionV1";
+    const CACHE_PARAM="_fresh";
+    const url=new URL(location.href);
 
-  if(!sessionStorage.getItem(SESSION_KEY)){
-    sessionStorage.setItem(SESSION_KEY,"1");
-    url.searchParams.set(CACHE_PARAM,Date.now().toString(36));
+    let already=false;
+    try{ already=!!sessionStorage.getItem(SESSION_KEY); }catch(_){ already=true; } // storage blocked → don't loop
 
-    const refresh=()=>location.replace(url.href);
-
-    if("serviceWorker" in navigator){
-      navigator.serviceWorker.getRegistration()
-        .then(async reg=>{
-          if(!reg)return;
-          try{
-            await reg.update();
-            if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});
-          }catch(e){}
-        })
-        .finally(refresh);
-    }else{
-      refresh();
+    if(!already){
+      try{ sessionStorage.setItem(SESSION_KEY,"1"); }catch(_){}
+      url.searchParams.set(CACHE_PARAM,Date.now().toString(36));
+      const refresh=()=>location.replace(url.href);
+      if("serviceWorker" in navigator){
+        navigator.serviceWorker.getRegistration()
+          .then(async reg=>{
+            if(!reg)return;
+            try{
+              await reg.update();
+              if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});
+            }catch(e){}
+          })
+          .finally(refresh);
+      }else{
+        refresh();
+      }
+      return;
     }
-    return;
-  }
 
-  if(url.searchParams.has(CACHE_PARAM)){
-    url.searchParams.delete(CACHE_PARAM);
-    history.replaceState(null,"",url.pathname+url.search+url.hash);
+    if(url.searchParams.has(CACHE_PARAM)){
+      url.searchParams.delete(CACHE_PARAM);
+      history.replaceState(null,"",url.pathname+url.search+url.hash);
+    }
+  }catch(err){
+    // Never let the bootstrap break the app.
+    console.warn("Boot guard skipped:",err);
   }
 })();
 </script>
@@ -2510,6 +2516,11 @@ body.watchLearnOpen #app {
 </div>
 <script>
 (()=>{"use strict";const R=["id","level","difficulty","type","topic","concept","question","option_a","feedback_a","option_b","feedback_b","option_c","feedback_c","option_d","feedback_d","correct"],L=["A","B","C","D"];let bank=[],layout="side",order=[],pos=0,cur=null,score=[0,0],ans=[null,null],ready=[false,false],phase="answer";const $=x=>document.getElementById(x);
+window.addEventListener("error",e=>{
+  console.error("Runtime error:",e.error||e.message);
+  const err=document.getElementById("err");
+  if(err){err.textContent="Startup error: "+(e.message||"unknown");err.classList.remove("hidden");}
+});
 function questionInstruction(type){
   const t=String(type||"").toLowerCase();
   if(/dialog|diyalog|conversation|response|reply/.test(t))return "Choose the best response";
@@ -2915,11 +2926,29 @@ function watchUpdateSourceUI(){$("watchYoutubeWrap").classList.toggle("hidden",$
 $("watchLearnOpen").onclick=()=>{$("home").classList.add("hidden");showL("watchLearnSetup");watchSetError("");window.scrollTo(0,0)};
 $("watchLearnBack").onclick=()=>{showL("mainMenu");$("home").classList.remove("hidden");window.scrollTo(0,0)};
 $("watchSource").onchange=watchUpdateSourceUI;
-$("watchQuestionFile").onchange=async e=>{watchData=null;let f=e.target.files?.[0];if(!f){$("watchQuestionStatus").textContent="No question file loaded.";return}try{watchData=watchNormalizeData(JSON.parse(await f.text()));$("watchQuestionStatus").textContent=`Loaded ${watchData.segments.length} segments · ${watchData.title}`;let starts=watchData.segments.map(x=>x.start),ends=watchData.segments.map(x=>x.end);if (!watchCaptionCues.length) {
-  watchSetTimeInput("watchStart", Math.min(...starts));
-  watchSetTimeInput("watchEnd", Math.max(...ends));
-}$("watchQuestionStatus").textContent="Could not load question file.";watchSetError(err.message||"Invalid question JSON.")}};
-
+$("watchQuestionFile").onchange = async e => {
+  watchData = null;
+  const f = e.target.files?.[0];
+  if (!f) {
+    $("watchQuestionStatus").textContent = "No question file loaded.";
+    return;
+  }
+  try {
+    watchData = watchNormalizeData(JSON.parse(await f.text()));
+    $("watchQuestionStatus").textContent =
+      `Loaded ${watchData.segments.length} segments · ${watchData.title}`;
+    const starts = watchData.segments.map(x => x.start);
+    const ends = watchData.segments.map(x => x.end);
+    if (!watchCaptionCues.length) {
+      watchSetTimeInput("watchStart", Math.min(...starts));
+      watchSetTimeInput("watchEnd", Math.max(...ends));
+    }
+  } catch (err) {
+    watchData = null;
+    $("watchQuestionStatus").textContent = "Could not load question file.";
+    watchSetError(err.message || "Invalid question JSON.");
+  }
+};
 $("watchCaptionFile").onchange = async e => {
   watchCaptionCues = [];
   const f = e.target.files?.[0];
